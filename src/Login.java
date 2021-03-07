@@ -33,13 +33,13 @@ public class Login extends BaseServlet {
 		switch (Objects.toString(request.getParameter("exec"),"")) {
 		case "login":
 			if (login(request, response)) {
-				request.getRequestDispatcher("menu.jsp").forward(request, response);
+				request.getRequestDispatcher("./menu.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("./login.jsp").forward(request, response);
 			}
 			break;
 		default:
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("./login.jsp").forward(request, response);
 		}
 
 	}
