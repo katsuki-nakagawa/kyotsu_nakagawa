@@ -19,7 +19,7 @@ public class Member extends BaseServlet {
 		System.out.println("新規登録画面に遷移");
 
 		if(proc.contains("new")) {
-			request.getRequestDispatcher("/member.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/member.jsp").forward(request, response);
 		}
 
 	}

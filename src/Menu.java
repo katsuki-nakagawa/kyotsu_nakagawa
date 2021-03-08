@@ -26,7 +26,7 @@ public class Menu extends BaseServlet {
 			break;
 
 		default:
-			request.getRequestDispatcher("./menu").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
 		}
 
 	}
