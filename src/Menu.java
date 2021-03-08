@@ -17,8 +17,8 @@ public class Menu extends BaseServlet {
 
 		switch (Objects.toString(request.getParameter("proc"), "")) {
 		case "new":
-			request.setAttribute("proc", "new");
-			request.getRequestDispatcher("./Member").forward(request, response);
+//			request.setAttribute("proc", "new");
+			request.getRequestDispatcher("/WEB-INF/jsp/member.jsp?proc=new").forward(request, response);
 		case "update":
 
 		case "delete":
