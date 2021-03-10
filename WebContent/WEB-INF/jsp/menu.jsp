@@ -17,14 +17,15 @@
 	<div>ようこそ${sessionScope.userinfo.meiUser}様</div>
 	<form method="GET" action="./Menu" target="_new">
 		<div>
-			<input type="hidden" name="proc" value="new"> <input
-				type="submit" value="会員登録">
+			<input type="hidden" name="proc" value="new">
+			<input type="submit" value="会員登録">
 		</div>
 	</form>
-	<form method="POST" action="./MemberList" target="_new"></form>
+	<form method="GET" action="./MemberList" target="_new">
 		<div>
 			<input type="submit" value="会員検索">
 		</div>
+	</form>
 	<form method="GET" action="./Login">
 		<div>
 			<input type="hidden" name="proc"value="logout">

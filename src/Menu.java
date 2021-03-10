@@ -21,7 +21,6 @@ public class Menu extends BaseServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/member.jsp").forward(request, response);
 		case "memberList":
 			break;
-
 		default:
 			request.getRequestDispatcher("./Login").forward(request, response);
 		}
