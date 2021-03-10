@@ -23,9 +23,18 @@ public class Login extends BaseServlet {
 	 */
 	protected void executeLogic(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		// ログアウト時の処理
+		String logout = "";
+		logout = request.getParameter("proc");
+		if ("logout".equals(logout)) {
+			System.out.println(logout);
+			HttpSession session = request.getSession();
+			session.invalidate();
+		}
+
 		// 既にログイン済の場合はメニュー画面に遷移させる
 		if (request.getSession().getAttribute("userinfo") != null) {
-			request.getRequestDispatcher("menu.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
 			return;
 		}
 

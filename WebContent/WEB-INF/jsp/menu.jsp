@@ -25,9 +25,10 @@
 		<div>
 			<input type="submit" value="会員検索">
 		</div>
-	<form method="GET" action="./Menu">
+	<form method="GET" action="./Login">
 		<div>
-			<input type="submit" value="ログアウト">
+			<input type="hidden" name="proc"value="logout">
+			<button>ログアウト</button>
 		</div>
 	</form>
 </body>

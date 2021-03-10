@@ -17,16 +17,13 @@ public class Menu extends BaseServlet {
 
 		switch (Objects.toString(request.getParameter("proc"), "")) {
 		case "new":
-//			request.setAttribute("proc", "new");
-			request.getRequestDispatcher("/WEB-INF/jsp/member.jsp?proc=new").forward(request, response);
-		case "update":
-
-		case "delete":
-
+			request.setAttribute("proc", "new");
+			request.getRequestDispatcher("/WEB-INF/jsp/member.jsp").forward(request, response);
+		case "memberList":
 			break;
 
 		default:
-			request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
+			request.getRequestDispatcher("./Login").forward(request, response);
 		}
 
 	}
