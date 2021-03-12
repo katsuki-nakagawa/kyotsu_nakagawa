@@ -21,6 +21,12 @@
 
 
 
+<style>
+.Error-Message {
+	color: #ff0000;
+}
+</style>
+
 <%
 	String proc = "";
 	if (request.getAttribute("proc") != null) {
@@ -49,7 +55,10 @@
 		* 性別カスタム入力
 		*/
 		//初期表示は隠す
-		$("#custom").hide();
+		if($("#seibetsu").val() == "2"){
+			$("#custom").show();
+		}
+
 		// 性別選択でカスタムならテキストボックスを表示する
 		$("#seibetsu").on("click", function(){
 			let selectSeibetsu = $("#seibetsu").val();
@@ -75,30 +84,52 @@
 	<h1></h1>
 	<form method="POST" action="./Member">
 		<input type="hidden" name="proc" value="${proc}">
+		<input type="hidden" name="idUser">
 		<div>
 			<label for="idLoginUser">ログインユーザーID</label>
-			<input type="text" name="idLoginUser" id="idLoginUser">
+			<input type="text" name="idLoginUser" id="idLoginUser"
+				value="<c:out value="${user.idLoginUser}" default="" />">
+
+			<div class="Error-Message">
+				<c:out value="${ERROR_MSG_ID}" default="" />
+			</div>
 		</div>
 		<div>
 			<label for="password">パスワード</label>
-			<input type="password" name="password" id="password">
+			<input type="password" name="password" id="password"
+				value="<c:out value="${user.password}" default="" />">
+			<div class="Error-Message">
+				<c:out value="${ERROR_MSG_PASS}" default="" />
+			</div>
 		</div>
 		<div>
 			<label for="meiUser">ユーザー名</label>
-			<input type="text" name="meiUser" id="meiUser">
+			<input type="text" name="meiUser" id="meiUser"
+				value="<c:out value="${user.meiUser}" default="" />">
+			<div class="Error-Message">
+				<c:out value="${ERROR_MSG_NAME}" default="" />
+			</div>
 		</div>
 		<div>
 			<label for="age">年齢</label>
-			<input type="number" name="age" id="age">
+			<input type="number" name="age" id="age" min="0"
+				value="<c:out value="${user.age}" default="" />">
+			<div class="Error-Message">
+				<c:out value="${ERROR_MSG_AGE}" default="" />
+			</div>
 		</div>
 		<div>
 			<label for="seibetsu">性別</label>
 			<select name="seibetsu" id="seibetsu">
-				<option value="0">男</option>
-				<option value="1">女</option>
-				<option value="2">カスタム</option>
+				<option value="0" <c:if test="${user.seibetu == '0'}">selected </c:if>>男</option>
+				<option value="1" <c:if test="${user.seibetu == '1'}">selected </c:if>>女</option>
+				<option value="2" <c:if test="${user.seibetu == '2'}">selected </c:if>>カスタム</option>
 			</select>
-			<input type="text" name="custom" id="custom">
+			<input type="text" name="custom" id="custom"
+				value="<c:out value="${user.custom}" default="" />">
+			<div class="Error-Message">
+				<c:out value="${ERROR_MSG_CUSTOM}" default="" />
+			</div>
 		</div>
 		<div>
 			<button type="submit" id="confirmationBtn">確認</button>
