@@ -1,4 +1,7 @@
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,36 +34,56 @@ public class Member extends BaseServlet {
 		System.out.println("遷移パラメーター" + proc);
 		System.out.println("新規登録画面に遷移");
 
-		if (proc.contains("new")) {
+		//	入力情報を取得する
+		UserEntity user = new UserEntity();
+		user.setIdUser(request.getParameter("idUser")); //ID
+		user.setIdLoginUser(request.getParameter("idLoginUser")); //ログインID
+		user.setPassword(request.getParameter("password")); //パスワード
+		user.setMeiUser(request.getParameter("meiUser")); //ユーザー名
+		user.setAge(request.getParameter("age")); //年齢
+		user.setSeibetu(request.getParameter("seibetsu")); //性別
+		user.setCustom(request.getParameter("custom")); //性別カスタム
+		request.setAttribute("user", user);
+		request.setAttribute("proc", proc);
 
-			//	入力情報を取得する
-			UserEntity user = new UserEntity();
-			user.setIdUser(request.getParameter("idUser")); //ID
-			user.setIdLoginUser(request.getParameter("idLoginUser")); //ログインID
-			user.setPassword(request.getParameter("password")); //パスワード
-			user.setMeiUser(request.getParameter("meiUser")); //ユーザー名
-			user.setAge(request.getParameter("age")); //年齢
-			user.setSeibetu(request.getParameter("seibetsu")); //性別
-			user.setCustom(request.getParameter("custom")); //性別カスタム
-			request.setAttribute("user", user);
-			request.setAttribute("proc", proc);
 
-			System.out.println(user);
+
+		//	新規登録 OR 更新登録
+		if (proc.contains("new") || proc.contains("update")) {
 
 			//	バリデーションチェック
-			boolean isMemberValidate = isMemberValidate(request, user);
+			boolean isMemberValidate = this.isMemberValidate(request, user);
+			//	二重登録チェック
+			boolean isDoubleCheck = this.isDoubleCheck(request, response, user, proc);
 
-			if (isMemberValidate) {
+			if (isMemberValidate && isDoubleCheck) {
+				//	確認画面へ遷移する
 				dispatch = request.getRequestDispatcher("/WEB-INF/jsp/confirm.jsp");
 			}
 
-			//	確認画面に進む
-
-		} else if (proc.contains("update")) {
+		} else if (proc.contains("delete")) {
 
 		}
 
 		dispatch.forward(request, response);
+
+	}
+
+	private boolean isDoubleCheck(HttpServletRequest request, HttpServletResponse response, UserEntity user, String proc)
+			throws SQLException {
+
+		List<String> paramList = new ArrayList<String>();
+		paramList.add(user.getIdLoginUser());
+
+		if(proc.contains("new")) {
+			if(dba.selectOne("SELECT * FROM m_user WHERE id_login_user = ?", UserEntity.class, paramList) == null) {
+				return true;
+			}
+		}
+
+
+		request.setAttribute("ERROR_MSG_ID", SystemConstants.Error_msgID);
+		return false;
 
 	}
 
