@@ -17,7 +17,7 @@
 	}else if(user.getSeibetu().equals("1")){
 		displaySeibetsu = "女";
 	}else{
-		displaySeibetsu = user.getCustom();
+		displaySeibetsu = user.getSeibetuCustom();
 	}
 %>
 <body>
@@ -35,8 +35,8 @@
   		<input type="hidden" name="password" value="<c:out value="${user.password}" default="" />">
   		<input type="hidden" name="meiUser" value="<c:out value="${user.meiUser}" default="" />">
   		<input type="hidden" name="age" value="<c:out value="${user.age}" default="" />">
-  		<input type="hidden" name="seibetu" value="<c:out value="${user.seibetu}" default="" />">
-  		<input type="hidden" name="custom" value="<c:out value="${user.custom}" default="" />">
+  		<input type="hidden" name="seibetsu" value="<c:out value="${user.seibetu}" default="" />">
+  		<input type="hidden" name="custom" value="<c:out value="${user.seibetuCustom}" default="" />">
 	</form>
 
 </body>

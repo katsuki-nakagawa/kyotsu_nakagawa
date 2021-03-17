@@ -34,7 +34,7 @@ public class UserEntity {
     /**
      * カスタム
      */
-    private String custom;
+    private String seibetuCustom;
 
 	public String getIdUser() {
 		return idUser;
@@ -84,12 +84,12 @@ public class UserEntity {
 		this.age = age;
 	}
 
-	public String getCustom() {
-		return custom;
+	public String getSeibetuCustom() {
+		return seibetuCustom;
 	}
 
-	public void setCustom(String custom) {
-		this.custom = custom;
+	public void setSeibetuCustom(String seibetuCustom) {
+		this.seibetuCustom = seibetuCustom;
 	}
 
 

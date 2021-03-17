@@ -18,43 +18,33 @@
 <title>会員検索</title>
 </head>
 <body>
-	<h1>会員検索</h1>
 	<table border="1">
-		<tr>
-			<th>No</th>
-			<th>ログインID</th>
-			<th>氏名</th>
-			<th>年齢</th>
-			<th>性別</th>
-			<th></th>
-		</tr>
-		<c:forEach var="list" items="${userList}" varStatus="status">
-			<tr>
-				<td>${list.getIdUser()}</td>
-				<td>${list.getIdLoginUser()}</td>
-				<td>${list.getMeiUser()}</td>
-				<td>${list.getAge()}</td>
+	<tr>
+		<th>NO</th>
+		<th>ログインID</th>
+		<th>氏名</th>
+		<th>年齢</th>
+		<th>性別</th>
+	</tr>
 
-				<c:if test="${list.getSeibetu().isEmpty()}" var="customFlag" />
-				<c:if test="${customFlag}">
-					<td>${list.getSeibetuCustom()}</td>
-				</c:if>
-				<c:if test="${!customFlag}">
-					<c:if test="${list.getSeibetu() == '0'}" var="seibetuFlag" />
-					<c:if test="${seibetuFlag}">
-						<td>男</td>
-					</c:if>
-					<c:if test="${!seibetuFlag}">
-						<td>女</td>
-					</c:if>
-				</c:if>
-				<td><input type="button" value="更新"
-					onclick="upDelUser('fetchUpdate', ${list.getIdUser()});"> <input
-					type="button" value="削除"
-					onclick="upDelUser('fetchDelete', ${list.getIdUser()});"></td>
-			</tr>
-		</c:forEach>
-	</table>
-
+	<c:forEach var="list" items="${userList}" varStatus="status">
+	    <tr>
+			<td>${list.getIdUser()}</td>
+			<td>${list.getIdLoginUser()}</td>
+			<td>${list.getMeiUser()}</td>
+			<td>${list.getAge()}</td>
+	    	<td>
+	    	<c:choose>
+	    		<c:when test="${list.getSeibetu() == 0}">男</c:when>
+	    		<c:when test="${list.getSeibetu() == 1}">女</c:when>
+	    		<c:otherwise>${list.getSeibetuCustom()}</c:otherwise>
+	    	</c:choose>
+			<td>
+	  		<input type="button" value="更新" onclick="upDelUser('update', ${list.getIdUser()});">
+	  		<input type="button" value="削除" onclick="upDelUser('delete', ${list.getIdUser()});">
+			</td>
+	    </tr>
+	</c:forEach>
+</table>
 </body>
 </html>

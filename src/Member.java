@@ -42,7 +42,7 @@ public class Member extends BaseServlet {
 		user.setMeiUser(request.getParameter("meiUser")); //ユーザー名
 		user.setAge(request.getParameter("age")); //年齢
 		user.setSeibetu(request.getParameter("seibetsu")); //性別
-		user.setCustom(request.getParameter("custom")); //性別カスタム
+		user.setSeibetuCustom(request.getParameter("custom")); //性別カスタム
 		request.setAttribute("user", user);
 		request.setAttribute("proc", proc);
 
@@ -153,10 +153,10 @@ public class Member extends BaseServlet {
 		//性別（カスタム）チェック
 		if (user.getSeibetu().equals("2")) {
 			System.out.println("性別カスタム");
-			if (StringUtils.isBlank(user.getCustom())) {
+			if (StringUtils.isBlank(user.getSeibetuCustom())) {
 				request.setAttribute("ERROR_MSG_CUSTOM", SystemConstants.Error_msgEMPTY);
 				hasError = false;
-			} else if (user.getCustom().getBytes().length > 20) {
+			} else if (user.getSeibetuCustom().getBytes().length > 20) {
 				request.setAttribute("ERROR_MSG_CUSTOM", SystemConstants.Error_msgMOJISU);
 				hasError = false;
 			}

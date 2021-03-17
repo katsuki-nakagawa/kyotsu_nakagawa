@@ -1,4 +1,6 @@
-
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
@@ -25,16 +27,62 @@ public class Confirm extends BaseServlet {
 		user.setMeiUser(request.getParameter("meiUser")); //ユーザー名
 		user.setAge(request.getParameter("age")); //年齢
 		user.setSeibetu(request.getParameter("seibetsu")); //性別
-		user.setCustom(request.getParameter("custom")); //性別カスタム
+		user.setSeibetuCustom(request.getParameter("custom")); //性別カスタム
 		String proc = request.getParameter("proc");
 
 		request.setAttribute("user", user);
 		request.setAttribute("proc", proc);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("./member.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/member.jsp");
+
+		if("new".equals(proc)) {
+			if(Insert(request, response, user)) {
+				 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+			}
+
+		}
 
 		dispatcher.forward(request, response);
 
+	}
+
+	private boolean Insert(HttpServletRequest request, HttpServletResponse response, UserEntity user)
+			throws SQLException {
+		int executeCount = 0;
+		List<String> paramList = new ArrayList<String>();
+		paramList.add(user.getIdLoginUser());
+		paramList.add(user.getPassword());
+		paramList.add(user.getMeiUser());
+		if (user.getSeibetu().equals("")) {
+			paramList.add("NULL");
+		} else {
+			paramList.add(user.getSeibetu());
+		}
+		paramList.add(user.getAge());
+		paramList.add(user.getSeibetuCustom());
+
+		//クエリ生成
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO m_user (");
+		sb.append("id_user");
+		sb.append(", id_login_user");
+		sb.append(", password");
+		sb.append(", mei_user");
+		sb.append(", seibetu");
+		sb.append(", age");
+		sb.append(", seibetu_custom");
+		sb.append(") ");
+		sb.append("VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+		String sql = sb.toString();
+
+		executeCount = dba.update(sql, paramList);
+
+		if (executeCount > 0) {
+			request.setAttribute("result", "登録しました。");
+			return true;
+		}
+		request.setAttribute("result", "登録に失敗しました。");
+		return false;
 	}
 
 

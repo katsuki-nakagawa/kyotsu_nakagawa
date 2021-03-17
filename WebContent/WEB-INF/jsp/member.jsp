@@ -78,6 +78,7 @@
 
 
 
+
 <title></title>
 </head>
 <body>
@@ -127,7 +128,7 @@
 				<option value="2" <c:if test="${user.seibetu == '2'}">selected </c:if>>カスタム</option>
 			</select>
 			<input type="text" name="custom" id="custom"
-				value="<c:out value="${user.custom}" default="" />">
+				value="<c:out value="${user.seibetuCustom}" default="" />">
 			<div class="Error-Message">
 				<c:out value="${ERROR_MSG_CUSTOM}" default="" />
 			</div>
