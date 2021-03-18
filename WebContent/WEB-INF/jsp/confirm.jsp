@@ -35,6 +35,7 @@
 	$(function() {
 		const MemberRegistration = "会員登録";
 		const MemberUpdate = "会員更新";
+		const MemberDelete = "会員削除";
 
 		//	タイトル表示
 		if ("${proc}" == "new") {
@@ -43,6 +44,10 @@
 		} else if ("${proc}" == "update") {
 			document.title = MemberUpdate
 			$("h1").text(MemberUpdate)
+		}else if ("${proc}" == "delete") {
+			document.title = MemberDelete
+			$("#confirm_btn").text("削除");
+			$("h1").text(MemberDelete)
 		}
 	});
 </script>
@@ -67,7 +72,7 @@
 		<div>氏名:<span><c:out value="${user.meiUser}"></c:out></span></div>
 		<div>年齢:<span><c:out value="${user.age}"></c:out></span></div>
 		<div>性別:<span><%=displaySeibetsu %></span></div>
-		<button type="submit">登録</button>
+		<button type="submit" id="confirm_btn">登録</button>
 		<button type="button" onclick="history.back()">戻る</button>
 
 		<input type="hidden" id="proc"  name="proc" value="<c:out value="${proc}" default="" />">

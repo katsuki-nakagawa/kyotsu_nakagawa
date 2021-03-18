@@ -55,6 +55,13 @@
 		} else if (proc == "delete") {
 			document.title = MemberDelete
 			$("h1").text(MemberDelete)
+
+/*  			$("#idLoginUser").attr('readonly',true);
+			$("#password").attr('readonly',true);
+			$("#meiUser").attr('readonly',true);
+			$("#age").attr('readonly',true);
+			$("#seibetsu").attr('disabled',true);
+			$("#custom").attr('readonly',true); */
 		}
 
 
