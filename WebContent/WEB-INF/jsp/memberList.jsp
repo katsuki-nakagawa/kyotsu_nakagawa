@@ -18,6 +18,7 @@
 <title>会員検索</title>
 </head>
 <body>
+<h1>会員一覧</h1>
 	<table border="1">
 	<tr>
 		<th>NO</th>
@@ -40,8 +41,8 @@
 	    		<c:otherwise>${list.getSeibetuCustom()}</c:otherwise>
 	    	</c:choose>
 			<td>
-	  		<input type="button" value="更新" onclick="upDelUser('update', ${list.getIdUser()});">
-	  		<input type="button" value="削除" onclick="upDelUser('delete', ${list.getIdUser()});">
+	  		<input type="button" value="更新" onclick="upDelUser('update_user', ${list.getIdUser()});">
+	  		<input type="button" value="削除" onclick="upDelUser('delete_user', ${list.getIdUser()});">
 			</td>
 	    </tr>
 	</c:forEach>

@@ -34,11 +34,15 @@
 	<script type="text/javascript">
 		$(function() {
 			const MemberRegistration ="会員登録";
+			const MemberUpdate = "会員更新";
 
 			//	タイトル表示
 			if ("${proc}" == "new"){
 				document.title = MemberRegistration
 				$("h1").text(MemberRegistration)
+			}else if ("${proc}" == "update"){
+				document.title = MemberUpdate
+				$("h1").text(MemberUpdate)
 			}
 		});
 	</script>

@@ -32,11 +32,20 @@ public class Member extends BaseServlet {
 
 		//	ログ
 		System.out.println("遷移パラメーター" + proc);
-		System.out.println("新規登録画面に遷移");
+
+		//update OR deleteの場合、user情報を取得しmember画面に表示する
+		if(proc.equals("update_user")) {
+			String id_user = request.getParameter("id_user");
+			getUserData(request, response);
+			request.setAttribute("proc", "update");
+			request.setAttribute("id_user", id_user);
+			dispatch.forward(request, response);
+			return;
+		}
 
 		//	入力情報を取得する
 		UserEntity user = new UserEntity();
-		user.setIdUser(request.getParameter("idUser")); //ID
+		user.setIdUser(request.getParameter("id_user")); //ID
 		user.setIdLoginUser(request.getParameter("idLoginUser")); //ログインID
 		user.setPassword(request.getParameter("password")); //パスワード
 		user.setMeiUser(request.getParameter("meiUser")); //ユーザー名
@@ -69,22 +78,50 @@ public class Member extends BaseServlet {
 
 	}
 
-	private boolean isDoubleCheck(HttpServletRequest request, HttpServletResponse response, UserEntity user, String proc)
+	//	重複チェック
+	private boolean isDoubleCheck(HttpServletRequest request, HttpServletResponse response, UserEntity user,
+			String proc)
 			throws SQLException {
 
 		List<String> paramList = new ArrayList<String>();
 		paramList.add(user.getIdLoginUser());
 
-		if(proc.contains("new")) {
-			if(dba.selectOne("SELECT * FROM m_user WHERE id_login_user = ?", UserEntity.class, paramList) == null) {
+		if (proc.contains("new")) {
+			//	新規登録
+			if (dba.selectOne("SELECT * FROM m_user WHERE id_login_user = ?", UserEntity.class, paramList) == null) {
 				return true;
 			}
-		}
+		} else if (proc.contains("update")) {
+			//	更新登録
+			paramList.add(user.getIdUser());
+			if (dba.selectOne("SELECT * FROM m_user WHERE id_login_user = ? AND id_user NOT IN(?)", UserEntity.class,
+					paramList) == null) {
+				return true;
+			}
 
+		}
 
 		request.setAttribute("ERROR_MSG_ID", SystemConstants.Error_msgID);
 		return false;
 
+	}
+
+	private void getUserData(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		String id_user = request.getParameter("id_user");
+		String proc = request.getParameter("proc");
+		List<String> paramList = new ArrayList<String>();
+		paramList.add(id_user);
+		UserEntity user = null;
+		user = dba.selectOne("SELECT * FROM m_user WHERE id_user = ?", UserEntity.class, paramList);
+
+		if (user != null) {
+			if ("update".equals(proc)) {
+				request.setAttribute("proc", "update");
+			} else if ("delete".equals(proc)) {
+				request.setAttribute("proc", "delete");
+			}
+		}
+		request.setAttribute("user", user);
 	}
 
 	/**

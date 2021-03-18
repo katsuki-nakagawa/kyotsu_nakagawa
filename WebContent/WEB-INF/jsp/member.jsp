@@ -42,11 +42,15 @@
 		console.log(proc);
 
 		const MemberRegistration ="会員登録";
+		const MemberUpdate ="会員更新";
 
 		//	タイトル表示
 		if (proc == "new"){
 			document.title = MemberRegistration
 			$("h1").text(MemberRegistration)
+		} else if (proc == "update") {
+			document.title = MemberUpdate
+			$("h1").text(MemberUpdate)
 		}
 
 
@@ -86,7 +90,7 @@
 	<h1></h1>
 	<form method="POST" action="./Member">
 		<input type="hidden" name="proc" value="${proc}">
-		<input type="hidden" name="idUser">
+		<input type="hidden" name="id_user" value="${id_user}">
 		<div>
 			<label for="idLoginUser">ログインユーザーID</label>
 			<input type="text" name="idLoginUser" id="idLoginUser"

@@ -40,6 +40,11 @@ public class Confirm extends BaseServlet {
 				 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
 			}
 
+		}else if("update".equals(proc)) {
+			if(Update(request, response, user)) {
+				 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+			}
+
 		}
 
 		dispatcher.forward(request, response);
@@ -73,6 +78,46 @@ public class Confirm extends BaseServlet {
 		sb.append(", seibetu_custom");
 		sb.append(") ");
 		sb.append("VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+		String sql = sb.toString();
+
+		executeCount = dba.update(sql, paramList);
+
+		if (executeCount > 0) {
+			request.setAttribute("result", "登録しました。");
+			return true;
+		}
+		request.setAttribute("result", "登録に失敗しました。");
+		return false;
+	}
+
+	private boolean Update(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws SQLException{
+
+		int executeCount = 0;
+		List<String> paramList = new ArrayList<String>();
+		paramList.add(user.getIdLoginUser());
+		paramList.add(user.getPassword());
+		paramList.add(user.getMeiUser());
+		if (user.getSeibetu().equals("")) {
+			paramList.add("NULL");
+		} else {
+			paramList.add(user.getSeibetu());
+		}
+		paramList.add(user.getAge());
+		paramList.add(user.getSeibetuCustom());
+		paramList.add(user.getIdUser());
+
+		//クエリ生成
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE m_user ");
+		sb.append("SET ");
+		sb.append("id_login_user = ?");
+		sb.append(", password = ?");
+		sb.append(", mei_user = ?");
+		sb.append(", seibetu = ?");
+		sb.append(", age = ? ");
+		sb.append(", seibetu_custom = ?");
+		sb.append("WHERE ");
+		sb.append("id_user = ?");
 		String sql = sb.toString();
 
 		executeCount = dba.update(sql, paramList);
