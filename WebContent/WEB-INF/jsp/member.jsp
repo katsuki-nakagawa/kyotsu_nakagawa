@@ -43,6 +43,7 @@
 
 		const MemberRegistration ="会員登録";
 		const MemberUpdate ="会員更新";
+		const MemberDelete ="会員削除";
 
 		//	タイトル表示
 		if (proc == "new"){
@@ -51,6 +52,9 @@
 		} else if (proc == "update") {
 			document.title = MemberUpdate
 			$("h1").text(MemberUpdate)
+		} else if (proc == "delete") {
+			document.title = MemberDelete
+			$("h1").text(MemberDelete)
 		}
 
 

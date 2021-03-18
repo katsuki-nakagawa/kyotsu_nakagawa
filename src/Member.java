@@ -34,10 +34,16 @@ public class Member extends BaseServlet {
 		System.out.println("遷移パラメーター" + proc);
 
 		//update OR deleteの場合、user情報を取得しmember画面に表示する
-		if(proc.equals("update_user")) {
+		if(proc.equals("update_user") || proc.equals("delete_user")) {
 			String id_user = request.getParameter("id_user");
 			getUserData(request, response);
-			request.setAttribute("proc", "update");
+
+			if(proc.equals("update_user")) {
+				request.setAttribute("proc", "update");
+			} else if (proc.equals("delete_user")) {
+				request.setAttribute("proc", "delete");
+			}
+
 			request.setAttribute("id_user", id_user);
 			dispatch.forward(request, response);
 			return;
@@ -71,7 +77,7 @@ public class Member extends BaseServlet {
 			}
 
 		} else if (proc.contains("delete")) {
-
+			dispatch = request.getRequestDispatcher("/WEB-INF/jsp/confirm.jsp");
 		}
 
 		dispatch.forward(request, response);

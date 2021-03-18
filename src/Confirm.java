@@ -35,16 +35,18 @@ public class Confirm extends BaseServlet {
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/member.jsp");
 
-		if("new".equals(proc)) {
-			if(Insert(request, response, user)) {
-				 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+		if ("new".equals(proc)) {
+			if (Insert(request, response, user)) {
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
 			}
-
-		}else if("update".equals(proc)) {
-			if(Update(request, response, user)) {
-				 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+		} else if ("update".equals(proc)) {
+			if (Update(request, response, user)) {
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
 			}
-
+		} else if ("delete".equals(proc)) {
+			if (Delete(request, response, user.getIdUser())) {
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+			}
 		}
 
 		dispatcher.forward(request, response);
@@ -130,5 +132,14 @@ public class Confirm extends BaseServlet {
 		return false;
 	}
 
+	private boolean Delete(HttpServletRequest request, HttpServletResponse response,String IdUser) throws SQLException {
+		int executeCount = 0;
+		executeCount = dba.update("DELETE FROM m_user WHERE id_user = ?", IdUser);
+		if (executeCount > 0) {
+			request.setAttribute("result", "削除しました。");
+			return true;
+		}
+		return false;
+	}
 
 }
